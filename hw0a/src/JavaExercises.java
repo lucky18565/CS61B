@@ -16,10 +16,10 @@ public class JavaExercises {
 
         for (int i = 1; i <= 5; i++) {
             String line = "";
-            for (int j = 5; j > i; j--){
+            for (int j = 5; j > i; j--) {
                 line += " ";
-                }
-            for (int k = 1; k <= i; k++){
+            }
+            for (int k = 1; k <= i; k++) {
                 line += "*";
             }
             System.out.println(line);
@@ -33,9 +33,9 @@ public class JavaExercises {
     public static void printIndexed(String s) {
         // TODO: Fill in this function
         String aa = "";
-        for (int i = 0; i< s.length(); i++){
+        for (int i = 0; i < s.length(); i++) {
             aa +=  s.charAt(i);
-            aa += s.length() -1 -i;
+            aa += s.length() - 1  - i;
         }
         System.out.println(aa);
     }
@@ -47,7 +47,7 @@ public class JavaExercises {
     public static String stutter(String s) {
         // TODO: Fill in this function
         String aa = "";
-        for (int i = 0; i< s.length(); i++){
+        for (int i = 0; i < s.length(); i++) {
             aa +=  s.charAt(i);
             aa +=  s.charAt(i);
         }
@@ -67,17 +67,16 @@ public class JavaExercises {
         // TODO: Fill in this function
         if (x == 0 || y == 0) {
             return 0;
-        }
-        else if (x > 0 && y > 0) {
+        } else if (x > 0 && y > 0) {
             return 1;
-        }
-        else if (x <0  && y > 0) {
+
+        } else if (x < 0  && y > 0) {
             return 2;
-        }
-        else if (x < 0 && y < 0) {
+
+        } else if (x < 0 && y < 0) {
             return 3;
-        }
-        else if (x > 0 && y < 0) {
+
+        } else if (x > 0 && y < 0) {
             return 4;
         }
         return 0;
