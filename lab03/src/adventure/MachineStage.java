@@ -81,30 +81,16 @@ public class MachineStage implements AdventureStage {
      * Returns the maximum integer between a and b.
      */
     public static int mysteryMax(int a, int b) {
-        int w = (b - a) >> 31;
-        int z = ~(b - a) >> 31;
-
-        int max = b & w | a & z;
-        return max;
+        if (a < b) {
+            return b;
+        }  else {
+            return a;
+        }
     }
 
     /**
      * Returns the sum of integers a and b.
      */
-    public static int mysteryAdd(int a, int b) {
-        int x = a, y = b;
-        int xor, and, temp;
-        and = x & y;
-        xor = x ^ y;
-
-        while (and != 0) {
-            and <<= 1;
-            temp = xor ^ and;
-            and &= xor;
-            xor = temp;
-        }
-        return xor;
-    }
 
     /**
      * Returns a new array where entry i is the max of
@@ -129,11 +115,10 @@ public class MachineStage implements AdventureStage {
      * Returns the sum of all elements in x.
      */
     public static int arraySum(int[] x) {
-        int i = 0;
+        int i;
         int sum = 0;
-        while (i < x.length) {
-            sum = sum + mysteryAdd(sum, x[i]);
-            i = i + 1;
+        for (i = 0; i < x.length; i += 1) {
+            sum += x[i];
         }
         return sum;
     }

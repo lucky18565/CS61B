@@ -11,11 +11,11 @@ public class SpeciesListStage implements AdventureStage {
 
     // Honestly I just find O'Reilly's animals to be really cool
     private static final List<String> REFERENCE_1 = List.of(
-            "leopards",     // Reactive Systems in Java
+            "leopards",     // Reactive Systems in Java  leopards,bison
             "bison"         // Java EXTREME Programming Cookbook
     );
     private static final List<String> REFERENCE_2 = List.of(
-            "squirrels",    // Java: The Good Parts
+            "squirrels",    // Java: The Good Parts   squirrels,hummingbirds
             "hummingbirds"  // Better, Faster, Lighter Java
     );
     private static final List<String> REFERENCE_3 = new ArrayList<>();
@@ -95,6 +95,9 @@ public class SpeciesListStage implements AdventureStage {
     public static int arraySimilarity(List<String> listOne, List<String> listTwo) {
         List<String> copy = new ArrayList<>(listOne);
         int similarObjects = 0;
+        if (listOne.size() == 0 || listOne.equals(null)) {
+            return similarObjects;
+        }
         for (String o : listTwo) {
             if (copy.contains(o)) {
                 similarObjects++;
