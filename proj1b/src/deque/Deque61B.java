@@ -1,13 +1,14 @@
 package deque;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by hug on 2/4/2017. Methods are provided in the suggested order
  * that they should be completed.
  */
-public interface Deque61B<T> {
-
+public interface Deque61B<T> extends Iterable<T> {
+    Iterator<T> iterator();
     /**
      * Add {@code x} to the front of the deque. Assumes {@code x} is never null.
      *

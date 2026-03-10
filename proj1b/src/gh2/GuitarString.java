@@ -1,5 +1,6 @@
 package gh2;
 
+import deque.ArrayDeque61B;
 import deque.Deque61B;
 
 // TODO: maybe more imports
@@ -14,7 +15,7 @@ public class GuitarString {
 
     /* Buffer for storing sound data. */
     // TODO: uncomment the following line once you're ready to start this portion
-    // private Deque61B<Double> buffer;
+     private Deque61B<Double> buffer;
 
     /* Create a guitar string of the given frequency.  */
     public GuitarString(double frequency) {
@@ -22,6 +23,11 @@ public class GuitarString {
         //       cast the result of this division operation into an int. For
         //       better accuracy, use the Math.round() function before casting.
         //       Your should initially fill your buffer with zeros.
+        buffer = new ArrayDeque61B<>();
+        int cs = (int) (SR / frequency);
+        for (int i = 0; i < cs; i++) {
+            buffer.addFirst(0.0);
+        }
     }
 
 
@@ -35,6 +41,8 @@ public class GuitarString {
         //       other. This does not mean that you need to check that the numbers
         //       are different from each other. It means you should repeatedly call
         //       Math.random() - 0.5 to generate new random numbers for each array index.
+        buffer.removeFirst();
+        buffer.addFirst(Math.random() - 0.5);
     }
 
     /* Advance the simulation one time step by performing one iteration of
@@ -44,12 +52,14 @@ public class GuitarString {
         // TODO: Dequeue the front sample and enqueue a new sample that is
         //       the average of the two multiplied by the DECAY factor.
         //       **Do not call StdAudio.play().**
+        double sz =  (((buffer.removeFirst() + buffer.get(0)) / 2) * DECAY);
+        buffer.addLast(sz);
     }
 
     /* Return the double at the front of the buffer. */
     public double sample() {
         // TODO: Return the correct thing.
-        return 0;
+        return buffer.get(0);
     }
 }
     // TODO: Remove all comments that say TODO when you're done.
