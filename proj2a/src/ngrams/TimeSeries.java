@@ -1,6 +1,8 @@
 package ngrams;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -30,7 +32,12 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      */
     public TimeSeries(TimeSeries ts, int startYear, int endYear) {
         super();
-        // TODO: Fill in this constructor.
+        for (Map.Entry<Integer, Double> tt : ts.entrySet()) {
+            int year = tt.getKey();
+            if (year >= startYear && year <= endYear) {
+                this.put(year, tt.getValue());
+            }
+        }
     }
 
     /**
@@ -38,7 +45,7 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      */
     public List<Integer> years() {
         // TODO: Fill in this method.
-        return null;
+        return new ArrayList<>(this.keySet());
     }
 
     /**
@@ -47,7 +54,7 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      */
     public List<Double> data() {
         // TODO: Fill in this method.
-        return null;
+        return new ArrayList<>(this.values());
     }
 
     /**
@@ -61,7 +68,24 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      */
     public TimeSeries plus(TimeSeries ts) {
         // TODO: Fill in this method.
-        return null;
+        TimeSeries result = new TimeSeries();
+        for (Map.Entry<Integer, Double> ti : entrySet()) {
+            int year = ti.getKey();
+            if (ts.containsKey(year)) {
+                Double val = ti.getValue() + ts.get(year);
+                result.put(year, val);
+            } else  {
+                result.put(year, ti.getValue());
+            }
+        }
+        for (Map.Entry<Integer, Double> tt : ts.entrySet()) {
+            int year = tt.getKey();
+            if (result.containsKey(year)) {
+                continue;
+            }
+            result.put(year, tt.getValue());
+        }
+        return result;
     }
 
     /**
@@ -75,7 +99,16 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      */
     public TimeSeries dividedBy(TimeSeries ts) {
         // TODO: Fill in this method.
-        return null;
+        TimeSeries result = new TimeSeries();
+        for (Map.Entry<Integer, Double> ti : entrySet()) {
+            int year = ti.getKey();
+            if (!ts.containsKey(year)) {
+                throw new IllegalArgumentException();
+            }
+            Double val = ti.getValue() / ts.get(year);
+            result.put(year, val);
+        }
+        return result;
     }
 
     // TODO: Add any private helper methods.

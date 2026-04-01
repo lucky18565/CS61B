@@ -61,4 +61,43 @@ public class TimeSeriesTest {
         assertThat(totalPopulation.years()).isEmpty();
         assertThat(totalPopulation.data()).isEmpty();
     }
+    @Test
+    public void testDivideBasic() {
+        TimeSeries ts1 = new TimeSeries();
+        ts1.put(1991, 10.0);
+        ts1.put(1992, 20.0);
+
+        TimeSeries ts2 = new TimeSeries();
+        ts2.put(1991, 2.0);
+        ts2.put(1992, 4.0);
+
+        TimeSeries result = ts1.dividedBy(ts2);
+
+        List<Double> expected = Arrays.asList(5.0, 5.0);
+        assertThat(result.data()).isEqualTo(expected);
+
+        // 测试顺序和 years() 一致
+        List<Integer> expectedYears = Arrays.asList(1991, 1992);
+        assertThat(result.years()).isEqualTo(expectedYears);
+    }
+
+    @Test
+    public void testDivideThrowsException() {
+        TimeSeries ts1 = new TimeSeries();
+        ts1.put(1991, 10.0);
+        ts1.put(1992, 20.0);
+
+        TimeSeries ts2 = new TimeSeries();
+        ts2.put(1991, 2.0);
+        // ts2 缺少 1992
+
+        try {
+            ts1.dividedBy(ts2);
+            // 如果没有抛出异常，测试失败
+            assertThat(false).isTrue();
+        } catch (IllegalArgumentException e) {
+            // 预期抛出异常
+            assertThat(true).isTrue();
+        }
+    }
 } 

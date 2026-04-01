@@ -35,11 +35,48 @@ public class NGramMapTest {
         for (int i = 0; i < expectedCounts.size(); i += 1) {
             assertThat(request2005to2008.data().get(i)).isWithin(1E-10).of(expectedCounts.get(i));
         }
+    }
+    @Test
+    public void testEdgeCases() {
+        // creates an NGramMap from a small dataset
+        NGramMap ngm = new NGramMap(SHORT_WORDS_FILE, TOTAL_COUNTS_FILE);
 
-        expectedYears = new ArrayList<>();
+        // Test: countHistory for a word not in the data
+        TimeSeries notawordHistory = ngm.countHistory("notaword");
+        List<Integer> expectedEmptyYears = new ArrayList<>();
+        List<Double> expectedEmptyCounts = new ArrayList<>();
+        assertThat(notawordHistory.years()).isEqualTo(expectedEmptyYears);
+        assertThat(notawordHistory.data()).isEqualTo(expectedEmptyCounts);
+
+        // Test: countHistory for a word in the data but out-of-range years
+        TimeSeries requestOutOfRange = ngm.countHistory("request", 1900, 1901);
+        assertThat(requestOutOfRange.years()).isEqualTo(expectedEmptyYears);
+        assertThat(requestOutOfRange.data()).isEqualTo(expectedEmptyCounts);
+
+        // Test: countHistory for a word in the data with extreme year range
+        TimeSeries requestAllYears = ngm.countHistory("request", Integer.MIN_VALUE, Integer.MAX_VALUE);
+        List<Integer> expectedRequestYears = new ArrayList<>();
+        expectedRequestYears.add(2005);
+        expectedRequestYears.add(2006);
+        expectedRequestYears.add(2007);
+        expectedRequestYears.add(2008);
+        assertThat(requestAllYears.years()).isEqualTo(expectedRequestYears);
+
+        // Test: summedWeightHistory with empty word list
+        List<String> emptyWords = new ArrayList<>();
+        TimeSeries emptySummedWeight = ngm.summedWeightHistory(emptyWords, 2000, 2010);
+        assertThat(emptySummedWeight.years()).isEqualTo(expectedEmptyYears);
+        assertThat(emptySummedWeight.data()).isEqualTo(expectedEmptyCounts);
+
+        // Test: weightHistory for a word not in the data
+        TimeSeries notawordWeight = ngm.weightHistory("notaword", 2000, 2010);
+        assertThat(notawordWeight.years()).isEqualTo(expectedEmptyYears);
+        assertThat(notawordWeight.data()).isEqualTo(expectedEmptyCounts);
+
+        List<Integer> expectedYears = new ArrayList<>();
         expectedYears.add(2006);
         expectedYears.add(2007);
-        expectedCounts = new ArrayList<>();
+        List<Double> expectedCounts = new ArrayList<>();
         expectedCounts.add(677820.0);
         expectedCounts.add(697645.0);
 
@@ -60,6 +97,7 @@ public class NGramMapTest {
 
         // returns the count of the number of occurrences of economically per year between 2000 and 2010.
         TimeSeries econCount = ngm.countHistory("economically", 2000, 2010);
+        System.out.println(econCount.get(2000));
         assertThat(econCount.get(2000)).isWithin(1E-10).of(294258.0);
         assertThat(econCount.get(2010)).isWithin(1E-10).of(222744.0);
 
