@@ -1,0 +1,8 @@
+What would you like L to be?: 8
+
+Enter # strings to insert into each map: 1000000
+MyHashMap with ArrayList buckets: 0.96 sec
+MyHashMap with LinkedList buckets: 0.93 sec
+MyHashMap with HashSet buckets: 1.38 sec
+MyHashMap with Stack buckets: 1.31 sec
+MyHashMap with ArrayDeque buckets: 1.06 sec
